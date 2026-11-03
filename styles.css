@@ -1,2 +1,208 @@
-/* Part 3: Add custom styling here (colors, fonts, layout, spacing).
-   The starter provides no styles. */
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap");
+
+:root {
+   color-scheme: dark;
+   font-family: "DM Sans", "Segoe UI", sans-serif;
+   color: #eef4ff;
+   background: #070d18;
+   font-synthesis: none;
+   text-rendering: optimizeLegibility;
+   --panel: rgba(15, 27, 45, 0.88);
+   --line: rgba(165, 190, 224, 0.16);
+   --muted: #9aacc4;
+   --red: #f04452;
+   --blue: #70c8ff;
+}
+
+* {
+   box-sizing: border-box;
+}
+
+body {
+   position: relative;
+   isolation: isolate;
+   display: grid;
+   grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+   gap: 20px;
+   width: min(1120px, calc(100% - 48px));
+   min-height: 100vh;
+   margin: 0 auto;
+   padding: clamp(36px, 8vw, 88px) 0;
+   align-content: start;
+   background:
+      radial-gradient(ellipse at 50% 0%, rgba(33, 75, 120, 0.26), transparent 58%),
+      radial-gradient(circle at 8% 18%, rgba(255, 255, 255, 0.72) 0 1px, transparent 1.7px),
+      radial-gradient(circle at 88% 8%, rgba(112, 200, 255, 0.8) 0 1px, transparent 1.8px),
+      radial-gradient(circle at 73% 37%, rgba(255, 255, 255, 0.55) 0 1px, transparent 1.7px),
+      radial-gradient(circle at 18% 68%, rgba(112, 200, 255, 0.5) 0 1px, transparent 1.8px),
+      #070d18;
+   background-size: auto, 230px 230px, 310px 310px, 270px 270px, 350px 350px, auto;
+}
+
+h1 {
+   grid-column: 1 / -1;
+   position: relative;
+   margin: 0 0 12px;
+   padding: 0 0 22px;
+   border-bottom: 1px solid var(--line);
+   font-family: "Barlow Condensed", Impact, sans-serif;
+   font-size: clamp(2.7rem, 7vw, 5rem);
+   font-weight: 700;
+   letter-spacing: 0.035em;
+   line-height: 0.98;
+   text-transform: uppercase;
+   text-shadow: 0 5px 35px rgba(112, 200, 255, 0.15);
+}
+
+h1::before {
+   display: block;
+   margin-bottom: 12px;
+   color: var(--red);
+   content: "MISSION CONTROL  /  FLIGHT TRACKER";
+   font: 700 0.72rem "DM Sans", "Segoe UI", sans-serif;
+   letter-spacing: 0.2em;
+}
+
+label {
+   grid-column: 1 / -1;
+   margin-top: 12px;
+   color: var(--blue);
+   font-size: 0.76rem;
+   font-weight: 700;
+   letter-spacing: 0.15em;
+   text-transform: uppercase;
+}
+
+select {
+   grid-column: 1 / -1;
+   width: 100%;
+   min-height: 54px;
+   padding: 0 48px 0 16px;
+   border: 1px solid rgba(112, 200, 255, 0.38);
+   border-radius: 8px;
+   outline: none;
+   background-color: #111e30;
+   color: #f5f8ff;
+   font: inherit;
+   font-size: 1rem;
+   cursor: pointer;
+   transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+select:hover,
+select:focus-visible {
+   border-color: var(--blue);
+   box-shadow: 0 0 0 3px rgba(112, 200, 255, 0.14);
+}
+
+#status {
+   grid-column: 1 / -1;
+   min-height: 0;
+   margin: -8px 0 0;
+   color: #ffd2d4;
+   font-size: 0.92rem;
+}
+
+#status:not(:empty) {
+   padding: 12px 14px;
+   border: 1px solid rgba(240, 68, 82, 0.38);
+   border-left: 3px solid var(--red);
+   border-radius: 6px;
+   background: rgba(91, 23, 36, 0.32);
+}
+
+#missionDetails,
+#rocket {
+   min-width: 0;
+   min-height: 220px;
+   padding: clamp(20px, 4vw, 32px);
+   overflow: hidden;
+   border: 1px solid var(--line);
+   border-radius: 12px;
+   background:
+      linear-gradient(145deg, rgba(20, 38, 61, 0.94), var(--panel)),
+      var(--panel);
+   box-shadow: 0 18px 55px rgba(0, 0, 0, 0.22);
+}
+
+#missionDetails h2 {
+   margin: 0 0 16px;
+   font-family: "Barlow Condensed", Impact, sans-serif;
+   font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+   font-weight: 600;
+   letter-spacing: 0.025em;
+   line-height: 1.08;
+}
+
+#missionDetails p,
+#rocket {
+   color: var(--muted);
+   line-height: 1.7;
+}
+
+#missionDetails p {
+   margin: 0;
+}
+
+#rocket {
+   display: grid;
+   place-items: center;
+   min-height: 260px;
+   padding: 14px;
+   background:
+      radial-gradient(ellipse at center, rgba(112, 200, 255, 0.12), transparent 68%),
+      linear-gradient(145deg, rgba(20, 38, 61, 0.94), var(--panel));
+   text-align: center;
+}
+
+#rocket img {
+   display: block;
+   width: 100%;
+   max-width: 100%;
+   max-height: 440px;
+   border-radius: 6px;
+   object-fit: contain;
+}
+
+@media (max-width: 640px) {
+   body {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 14px;
+      width: min(100% - 32px, 520px);
+      padding: 36px 0;
+   }
+
+   h1,
+   label,
+   select,
+   #status {
+      grid-column: 1;
+   }
+
+   h1 {
+      padding-bottom: 18px;
+   }
+
+   #missionDetails,
+   #rocket {
+      min-height: 0;
+   }
+
+   #rocket {
+      min-height: 220px;
+   }
+
+   #rocket img {
+      max-height: 360px;
+   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+   *,
+   *::before,
+   *::after {
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+   }
+}
