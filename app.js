@@ -5,26 +5,15 @@
 // Space Devs development endpoint: no rate limits, but the data is stale and limited.
 const BASE_URL = "https://lldev.thespacedevs.com/2.3.0";
 
-// ---------------------------------------------------------------
-// PART 1: XMLHttpRequest and callbacks
-// ---------------------------------------------------------------
-
-// Step 1: Create getUpcomingLaunches(callback)
-// - Makes a GET request to BASE_URL + "/launches/upcoming/"
-// - Parses the response
-// - Calls the callback function and passes the results array
-function getUpcomingLaunches(callback) {
-  const request = new XMLHttpRequest();
-
-  request.onreadystatechange = function () {
-    if (request.readyState === 4 && request.status === 200) {
-      const data = JSON.parse(request.responseText);
-      callback(data.results);
-    }
-  };
-
-  request.open("GET", BASE_URL + "/launches/upcoming/");
-  request.send();
+function getUpcomingLaunches() {
+  axios
+    .get(BASE_URL + "/launches/upcoming/")
+    .then(function (response) {
+      populateDropdown(response.data.results);
+    })
+    .catch(function (error) {
+      console.error("Unable to load upcoming launches.", error);
+    });
 }
 
 // Step 2: Create populateDropdown(launches)
@@ -43,27 +32,21 @@ function populateDropdown(launches) {
 
 // Step 3: Add event listener to #launchDropdown
 // - On change, get the selected launch ID
-// - Call getLaunchDetails(launchId, callback)
+// - Call getLaunchDetails(launchId)
 document.getElementById("launchDropdown").addEventListener("change", function () {
   const launchId = this.value;
-  getLaunchDetails(launchId, displayLaunchInfo);
+  getLaunchDetails(launchId);
 });
 
-// Step 4: Create getLaunchDetails(launchId, callback)
-// - Makes a GET request to BASE_URL + "/launches/" + launchId + "/"
-// - Parses the response and passes the launch object to the callback
-function getLaunchDetails(launchId, callback) {
-  const request = new XMLHttpRequest();
-
-  request.onreadystatechange = function () {
-    if (request.readyState === 4 && request.status === 200) {
-      const launch = JSON.parse(request.responseText);
-      callback(launch);
-    }
-  };
-
-  request.open("GET", BASE_URL + "/launches/" + launchId + "/");
-  request.send();
+function getLaunchDetails(launchId) {
+  axios
+    .get(BASE_URL + "/launches/" + launchId + "/")
+    .then(function (response) {
+      displayLaunchInfo(response.data);
+    })
+    .catch(function (error) {
+      console.error("Unable to load launch details.", error);
+    });
 }
 
 // Step 5: Create displayLaunchInfo(launch)
@@ -101,7 +84,7 @@ function displayLaunchInfo(launch) {
 }
 
 // Final step: kick off the flow
-getUpcomingLaunches(populateDropdown);
+getUpcomingLaunches();
 
 // ---------------------------------------------------------------
 // PART 2: Axios and promises (refactor after Part 1 is committed)
