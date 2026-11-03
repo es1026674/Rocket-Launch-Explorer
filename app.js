@@ -6,12 +6,17 @@
 const BASE_URL = "https://lldev.thespacedevs.com/2.3.0";
 
 function getUpcomingLaunches() {
+  const status = document.getElementById("status");
+  status.textContent = "Loading...";
+
   axios
     .get(BASE_URL + "/launches/upcoming/")
     .then(function (response) {
+      status.textContent = "";
       populateDropdown(response.data.results);
     })
     .catch(function (error) {
+      status.textContent = "Unable to load upcoming launches: " + error.message;
       console.error("Unable to load upcoming launches.", error);
     });
 }
@@ -39,12 +44,17 @@ document.getElementById("launchDropdown").addEventListener("change", function ()
 });
 
 function getLaunchDetails(launchId) {
+  const status = document.getElementById("status");
+  status.textContent = "Loading...";
+
   axios
     .get(BASE_URL + "/launches/" + launchId + "/")
     .then(function (response) {
+      status.textContent = "";
       displayLaunchInfo(response.data);
     })
     .catch(function (error) {
+      status.textContent = "Unable to load launch details: " + error.message;
       console.error("Unable to load launch details.", error);
     });
 }
